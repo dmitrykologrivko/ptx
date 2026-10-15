@@ -19,9 +19,9 @@ export class ProjectNotFoundError extends UsageError {
     }
 }
 
-export class CommandNotFoundError extends UsageError {
+export class TaskNotFoundError extends UsageError {
     constructor(project, command) {
-        super(`Project "${project}" has no command "${command ?? ''}".`);
+        super(`Project "${project}" has no task "${command ?? ''}".`);
         this.project = project;
         this.command = command;
     }

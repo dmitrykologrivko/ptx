@@ -1,9 +1,9 @@
-import { resolveTask, runProjectCommand } from './tasks.js';
+import { resolveTask, runProjectTask } from './tasks.js';
 
 export function createExecutor(deps = {}) {
     const {
         resolveTask: resolve = resolveTask,
-        runProject = runProjectCommand,
+        runProject = runProjectTask,
     } = deps;
 
     async function executeTask(name, args = []) {
@@ -13,8 +13,8 @@ export function createExecutor(deps = {}) {
             return { output, exitCode: 0 };
         }
 
-        const [commandName, ...commandArgs] = args;
-        const exitCode = await runProject(name, commandName, commandArgs);
+        const [taskName, ...taskArgs] = args;
+        const exitCode = await runProject(name, taskName, taskArgs);
         return { output: undefined, exitCode };
     }
 

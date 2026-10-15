@@ -28,7 +28,7 @@ describe('e2e', { skip: process.platform === 'win32' }, () => {
             projects: {
                 demo: {
                     cwd: work,
-                    commands: {
+                    tasks: {
                         hello: 'echo hello %%',
                         pair: 'printf "[%s][%s]" %%{{a}} %%{{b}}',
                         where: 'pwd',
@@ -37,7 +37,7 @@ describe('e2e', { skip: process.platform === 'win32' }, () => {
                 },
                 broken: {
                     cwd: path.join(work, 'missing'),
-                    commands: { run: 'echo nope' },
+                    tasks: { run: 'echo nope' },
                 },
             },
         }));
@@ -54,7 +54,7 @@ describe('e2e', { skip: process.platform === 'win32' }, () => {
         assert.equal(result.stdout, 'demo\nbroken\n');
     });
 
-    it('lists a project commands', () => {
+    it('lists a project tasks', () => {
         const result = ptx(['list', 'demo']);
         assert.equal(result.status, 0);
         assert.equal(result.stdout, 'hello\npair\nwhere\nfail\n');
@@ -104,7 +104,7 @@ describe('e2e', { skip: process.platform === 'win32' }, () => {
     it('fails with code 2 for an unknown command', () => {
         const result = ptx(['demo', 'nope']);
         assert.equal(result.status, 2);
-        assert.match(result.stderr, /has no command "nope"/);
+        assert.match(result.stderr, /has no task "nope"/);
     });
 
     it('fails with code 2 when the cwd is missing', () => {

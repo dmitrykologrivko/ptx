@@ -1,5 +1,5 @@
 import { ensureConfigFile, getConfig, getConfigPath } from './config.js';
-import { CommandNotFoundError, ProjectNotFoundError } from './errors.js';
+import { ProjectNotFoundError, TaskNotFoundError } from './errors.js';
 import { substitute } from './substitution.js';
 import { getLibVersion, runShell } from './utils.js';
 
@@ -14,7 +14,7 @@ export function helpTask(args, config = getConfig()) {
         'Commands:',
         '  help, --help, -h         show this help',
         '  version, --version, -v   show version',
-        '  list [project]           list projects or a project commands',
+        '  list [project]           list projects or a project tasks',
         '  config [--init]          show config path or create it',
         '',
         'Projects:',
@@ -49,8 +49,8 @@ export function listTask(args, config = getConfig()) {
         throw new ProjectNotFoundError(projectName);
     }
 
-    const commands = Object.keys(projects[projectName].commands ?? {});
-    return commands.length === 0 ? `Project "${projectName}" has no commands.` : commands.join('\n');
+    const tasks = Object.keys(projects[projectName].tasks ?? {});
+    return tasks.length === 0 ? `Project "${projectName}" has no tasks.` : tasks.join('\n');
 }
 
 export function configTask(args, configPath = getConfigPath(), initConfig = ensureConfigFile) {
@@ -61,12 +61,12 @@ export function configTask(args, configPath = getConfigPath(), initConfig = ensu
     return configPath;
 }
 
-export async function runProjectCommand(
+export async function runProjectTask(
     projectName,
-    commandName,
+    taskName,
     args,
     config = getConfig(),
-    buildCommand = substitute,
+    buildTaskCommand = substitute,
     execute = runShell,
 ) {
     const project = config.projects?.[projectName];
@@ -74,12 +74,12 @@ export async function runProjectCommand(
         throw new ProjectNotFoundError(projectName);
     }
 
-    const template = project.commands?.[commandName];
+    const template = project.tasks?.[taskName];
     if (template === undefined) {
-        throw new CommandNotFoundError(projectName, commandName);
+        throw new TaskNotFoundError(projectName, taskName);
     }
 
-    const command = buildCommand(template, args);
+    const command = buildTaskCommand(template, args);
 
     return execute(command, { cwd: project.cwd });
 }

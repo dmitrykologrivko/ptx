@@ -30,9 +30,9 @@
           "minLength": 1,
           "description": "Working directory where the command is executed."
         },
-        "commands": {
+        "tasks": {
           "type": "object",
-          "description": "Map of command name to the command run in the shell.",
+          "description": "Map of task name to the command run in the shell.",
           "additionalProperties": {
             "type": "string"
           }

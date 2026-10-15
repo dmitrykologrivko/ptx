@@ -139,13 +139,13 @@ function collectProjectErrors(name, project) {
         errors.push(`"${prefix}.cwd" must be a non-empty string`);
     }
 
-    if (project.commands !== undefined) {
-        if (project.commands === null || typeof project.commands !== 'object' || Array.isArray(project.commands)) {
-            errors.push(`"${prefix}.commands" must be an object`);
+    if (project.tasks !== undefined) {
+        if (project.tasks === null || typeof project.tasks !== 'object' || Array.isArray(project.tasks)) {
+            errors.push(`"${prefix}.tasks" must be an object`);
         } else {
-            for (const [command, value] of Object.entries(project.commands)) {
+            for (const [task, value] of Object.entries(project.tasks)) {
                 if (typeof value !== 'string') {
-                    errors.push(`"${prefix}.commands.${command}" must be a string`);
+                    errors.push(`"${prefix}.tasks.${task}" must be a string`);
                 }
             }
         }

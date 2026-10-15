@@ -30,7 +30,7 @@ Example of a simple config
   "projects": {
     "myapp": {
       "cwd": "/path/to/myapp",
-      "commands": {
+      "tasks": {
         "runserver": "python manage.py runserver %%{{0.0.0.0}} --settings=%%{{production}}",
         "migrate": "python manage.py migrate %%",
         "frontend-test": "npm test -- %%",
@@ -63,5 +63,5 @@ ptx myapp frontend-build
 |---|---|
 | `ptx` / `ptx --help` / `ptx -h` | help and project list |
 | `ptx --version` / `ptx -v` | version |
-| `ptx list [project]` | list projects or a project's commands |
+| `ptx list [project]` | list projects or a project's tasks |
 | `ptx config [--init]` | show config path or create it |

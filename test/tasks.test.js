@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { CommandNotFoundError, ProjectNotFoundError } from '../src/errors.js';
-import { configTask, helpTask, listTask, resolveTask, runProjectCommand, versionTask } from '../src/tasks.js';
+import { ProjectNotFoundError, TaskNotFoundError } from '../src/errors.js';
+import { configTask, helpTask, listTask, resolveTask, runProjectTask, versionTask } from '../src/tasks.js';
 
 describe('resolveTask', () => {
     it('resolves a task by name', () => {
@@ -56,13 +56,13 @@ describe('listTask', () => {
         assert.equal(listTask([], { projects: {} }), 'No projects configured.');
     });
 
-    it('lists the commands of a project', () => {
-        const config = { projects: { alpha: { cwd: '/alpha', commands: { run: 'x', test: 'y' } } } };
+    it('lists the tasks of a project', () => {
+        const config = { projects: { alpha: { cwd: '/alpha', tasks: { run: 'x', test: 'y' } } } };
         assert.equal(listTask(['alpha'], config), 'run\ntest');
     });
 
-    it('reports a project without commands', () => {
-        assert.equal(listTask(['alpha'], { projects: { alpha: { cwd: '/alpha' } } }), 'Project "alpha" has no commands.');
+    it('reports a project without tasks', () => {
+        assert.equal(listTask(['alpha'], { projects: { alpha: { cwd: '/alpha' } } }), 'Project "alpha" has no tasks.');
     });
 
     it('throws for an unknown project', () => {
@@ -87,12 +87,12 @@ describe('configTask', () => {
     });
 });
 
-describe('runProjectCommand', () => {
+describe('runProjectTask', () => {
     const config = {
         projects: {
             alpha: {
                 cwd: '/alpha',
-                commands: {
+                tasks: {
                     run: 'echo %%',
                     serve: 'srv %%{{0.0.0.0}}',
                 },
@@ -107,7 +107,7 @@ describe('runProjectCommand', () => {
             return 7;
         };
 
-        const exitCode = await runProjectCommand('alpha', 'run', ['hello'], config, undefined, execute);
+        const exitCode = await runProjectTask('alpha', 'run', ['hello'], config, undefined, execute);
 
         assert.equal(exitCode, 7);
         assert.deepEqual(called, { command: 'echo hello', options: { cwd: '/alpha' } });
@@ -115,7 +115,7 @@ describe('runProjectCommand', () => {
 
     it('applies defaults via substitution', async () => {
         let command;
-        const exitCode = await runProjectCommand('alpha', 'serve', [], config, undefined, async (value) => {
+        const exitCode = await runProjectTask('alpha', 'serve', [], config, undefined, async (value) => {
             command = value;
             return 0;
         });
@@ -126,15 +126,15 @@ describe('runProjectCommand', () => {
 
     it('throws for an unknown project', async () => {
         await assert.rejects(
-            () => runProjectCommand('missing', 'run', [], config, undefined, async () => 0),
+            () => runProjectTask('missing', 'run', [], config, undefined, async () => 0),
             ProjectNotFoundError,
         );
     });
 
     it('throws for an unknown command', async () => {
         await assert.rejects(
-            () => runProjectCommand('alpha', 'nope', [], config, undefined, async () => 0),
-            CommandNotFoundError,
+            () => runProjectTask('alpha', 'nope', [], config, undefined, async () => 0),
+            TaskNotFoundError,
         );
     });
 });

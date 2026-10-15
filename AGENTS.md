@@ -37,7 +37,7 @@ ptx <project> <command> [args...]
 ## Data flow
 
 ```
-argv -> index.main -> executor.run -> resolveTask (service) | runProjectCommand (project)
+argv -> index.main -> executor.run -> resolveTask (service) | runProjectTask (project)
      -> substitute(command, args) -> runShell(command, { cwd }) -> exit code
 ```
 
@@ -60,7 +60,7 @@ argv -> index.main -> executor.run -> resolveTask (service) | runProjectCommand 
 ## Config and substitution semantics (non-obvious)
 
 - Config path: `$XDG_CONFIG_HOME/ptx/config.json` or `~/.config/ptx/config.json`; Windows `%APPDATA%\ptx\config.json`. Created empty if missing.
-- `projects.<name>.cwd` is required; `commands` is a map of name -> **string** (no per-shell variants).
+- `projects.<name>.cwd` is required; `tasks` is a map of name -> **string** (no per-shell variants).
 - `%%` rules:
   - single `%%` at the end -> all args
   - single `%%` not at the end -> first arg only (extras dropped)
