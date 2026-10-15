@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/dmitrykologrivko/ptx/main/schema.json",
+  "title": "ptx config",
+  "description": "Configuration file for the ptx (project task executor) CLI.",
+  "type": "object",
+  "required": ["projects"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URL of the JSON Schema for editor autocompletion."
+    },
+    "projects": {
+      "type": "object",
+      "description": "Map of project name to project definition.",
+      "additionalProperties": {
+        "$ref": "#/definitions/project"
+      }
+    }
+  },
+  "definitions": {
+    "project": {
+      "type": "object",
+      "required": ["cwd"],
+      "additionalProperties": false,
+      "properties": {
+        "cwd": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Working directory where the command is executed."
+        },
+        "commands": {
+          "type": "object",
+          "description": "Map of command name to the command run in the shell.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

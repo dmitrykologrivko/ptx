@@ -1,0 +1,43 @@
+{
+  "name": "project-task-executor",
+  "version": "0.1.0",
+  "description": "Yet another small project task executor — run project commands from anywhere via a single CLI.",
+  "homepage": "https://github.com/dmitrykologrivko/ptx#readme",
+  "bugs": {
+    "url": "https://github.com/dmitrykologrivko/ptx/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmitrykologrivko/ptx.git"
+  },
+  "keywords": [
+    "cli",
+    "ptx",
+    "task-runner",
+    "project",
+    "command",
+    "executor",
+    "shell",
+    "spawn",
+    "devtools"
+  ],
+  "license": "MIT",
+  "author": "Dmitry Kologrivko",
+  "engines": {
+    "node": ">=18.17"
+  },
+  "type": "module",
+  "bin": {
+    "ptx": "bin/ptx.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "schema.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test"
+  }
+}
