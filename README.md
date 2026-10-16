@@ -12,17 +12,11 @@ ptx <project> <command> [args...]
 npm install -g project-task-executor
 ```
 
-On first run ptx creates a config at `~/.config/ptx/config.json` (macOS/Linux) or `%APPDATA%\ptx\config.json` (Windows).
+After install, ptx creates a config at `~/.config/ptx/config.json` (macOS/Linux) or `%APPDATA%\ptx\config.json` (Windows).
 
 ## Config
 
-Creates a default config file
-
-```bash
-ptx config --init
-```
-
-Example of a simple config
+Example of a simple config:
 
 ```json
 {

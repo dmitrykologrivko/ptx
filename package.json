@@ -1,6 +1,6 @@
 {
   "name": "project-task-executor",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Yet another small project task executor — run project tasks from anywhere via a single CLI.",
   "homepage": "https://github.com/dmitrykologrivko/ptx#readme",
   "bugs": {
@@ -38,6 +38,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "postinstall": "node bin/postinstall.js"
   }
 }
